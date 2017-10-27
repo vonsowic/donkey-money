@@ -47,4 +47,10 @@ public class HelloWorldController {
     public @ResponseBody String index() {
         return "DonkeyMoney's gonna make you rich!";
     }
+
+    @GetMapping(value = "/ping")
+    public @ResponseBody
+    String ping() {
+        return "pong";
+    }
 }
