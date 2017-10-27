@@ -3,10 +3,7 @@ package com.iobestgroup.donkeymoney.helloworld;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * W tym miejscu rejestrujemy 2 http requesty
@@ -44,5 +41,10 @@ public class HelloWorldController {
         helloWorldRepository.save(newItem);
 
         return "OK";
+    }
+
+    @GetMapping(value = "/")
+    public @ResponseBody String index() {
+        return "DonkeyMoney's gonna make you rich!";
     }
 }
