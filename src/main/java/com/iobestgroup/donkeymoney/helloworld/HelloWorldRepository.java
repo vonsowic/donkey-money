@@ -1,4 +1,4 @@
-package com.iobestgroup.aplikacjadozarzadzaniawydatkamiswoimiinietylko.helloworld;
+package com.iobestgroup.donkeymoney.helloworld;
 
 import org.springframework.data.repository.CrudRepository;
 

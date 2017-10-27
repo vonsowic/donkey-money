@@ -1,4 +1,4 @@
-package com.iobestgroup.aplikacjadozarzadzaniawydatkamiswoimiinietylko.helloworld;
+package com.iobestgroup.donkeymoney.helloworld;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;

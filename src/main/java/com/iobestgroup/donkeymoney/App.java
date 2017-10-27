@@ -1,4 +1,4 @@
-package com.iobestgroup.aplikacjadozarzadzaniawydatkamiswoimiinietylko;
+package com.iobestgroup.donkeymoney;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
