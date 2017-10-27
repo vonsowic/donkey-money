@@ -1,4 +1,4 @@
-package com.iobestgroup.aplikacjadozarzadzaniawydatkamiswoimiinietylko;
+package com.iobestgroup.donkeymoney;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
