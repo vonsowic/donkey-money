@@ -3,6 +3,7 @@
 !gradle/wrapper/gradle-wrapper.jar
 out/
 bin/
+
 ### STS ###
 .apt_generated
 .classpath
@@ -24,3 +25,6 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+### VS Code ###
+.vscode/

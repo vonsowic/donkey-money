@@ -15,26 +15,25 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class HelloWorldController {
 
-
     @Autowired // sprawia, że baza danych jest automatycznie podłączona
     private HelloWorldRepository helloWorldRepository;
 
-
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public @ResponseBody Iterable<HelloWorld> getAllHelloWorldsFromDatabase(){
+    public @ResponseBody
+    Iterable<HelloWorld> getAllHelloWorldsFromDatabase() {
         return helloWorldRepository.findAll();
     }
-
 
     /**
      * Po wysłaniu POST'a z JSON'em:
      * {
-        "message": "test"
-        }
-     do tabeli hello_world zostanie zapisany nowy rekord
+     * "message": "test"
+     * }
+     * do tabeli hello_world zostanie zapisany nowy rekord
      */
-    @PostMapping(value = "/add")    // skrócona wersja od @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public @ResponseBody String addNewHelloWorld(@Param("message") String message){ // po wysłaniu JSON'a
+    @PostMapping(value = "/add") // skrócona wersja od @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public @ResponseBody
+    String addNewHelloWorld(@Param("message") String message) { // po wysłaniu JSON'a
         HelloWorld newItem = new HelloWorld();
         newItem.setMessage(message);
 
@@ -44,7 +43,8 @@ public class HelloWorldController {
     }
 
     @GetMapping(value = "/")
-    public @ResponseBody String index() {
+    public @ResponseBody
+    String index() {
         return "DonkeyMoney's gonna make you rich!";
     }
 }

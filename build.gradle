@@ -36,3 +36,5 @@ dependencies {
 
     runtime("org.hsqldb:hsqldb")
 }
+
+apply from: rootProject.file('gradle/install-git-hooks.gradle')
