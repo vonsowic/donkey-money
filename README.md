@@ -8,6 +8,7 @@ OAuth2
 
 ### Google
 Aby użyć klucza w aplikacji, należy przekazać go w parametrze *key=AIzaSyA-C-ud6dEYn5WahjTkTzLZhCnPk4iroDs*
+
 Dla wszystkich części naszego projektu powinien być utworzony jeden projekt na Google Cloud, ale każdy klient ma mieć wygenerowany własny klucz. Klucze klienckie:
 * web - TODO
 * Andoroid - TODO
