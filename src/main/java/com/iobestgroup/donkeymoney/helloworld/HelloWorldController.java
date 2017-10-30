@@ -15,8 +15,12 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class HelloWorldController {
 
-    @Autowired // sprawia, że baza danych jest automatycznie podłączona
-    private HelloWorldRepository helloWorldRepository;
+    private final HelloWorldRepository helloWorldRepository;
+
+    @Autowired
+    public HelloWorldController(HelloWorldRepository helloWorldRepository) {
+        this.helloWorldRepository = helloWorldRepository;
+    }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public @ResponseBody
