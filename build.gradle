@@ -35,4 +35,9 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.16.18'
 
     runtime("org.hsqldb:hsqldb")
+    // https://mvnrepository.com/artifact/postgresql/postgresql
+    compile group: 'postgresql', name: 'postgresql', version: '9.1-901-1.jdbc4'
+
 }
+
+apply from: rootProject.file('gradle/install-git-hooks.gradle')
