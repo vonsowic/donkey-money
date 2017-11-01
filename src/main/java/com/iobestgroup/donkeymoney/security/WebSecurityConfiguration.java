@@ -16,19 +16,16 @@ public class WebSecurityConfiguration  extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http    /*
+        http
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
+                .antMatchers("/", "/user/login", "/user/registration").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/signin")
+                .loginPage("/user/login")
                 .permitAll()
                 .and()
-                .logout()
-                */
-                .authorizeRequests()
-                .antMatchers("/**").permitAll();    // na razie nie ma autoryzcji, więc każdy url jest dozwolony
+                .logout();
 
         http.csrf().disable();
     }
