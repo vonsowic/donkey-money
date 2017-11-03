@@ -15,6 +15,11 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class HelloWorldController {
 
+    @GetMapping("googlece1bc7e841e70594")
+    public String googlece1bc7e841e70594(){
+        return "googlece1bc7e841e70594";
+    }
+
     @Autowired // sprawia, że baza danych jest automatycznie podłączona
     private HelloWorldRepository helloWorldRepository;
 
