@@ -8,14 +8,14 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "users")
-public class User {
+public class DMUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name")
-    private String name;
+    private String username;
 
     @Column(name = "last_name")
     private String lastName;
@@ -23,4 +23,7 @@ public class User {
     @Email
     @Column(name = "email", unique = true)
     private String email;
+
+    @Column(name = "password")
+    private String password;
 }

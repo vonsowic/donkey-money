@@ -2,38 +2,32 @@ package com.iobestgroup.donkeymoney.user;
 
 import com.iobestgroup.donkeymoney.user.exceptions.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping("/user")
 public class UserController {
 
-    private final UserService userDao;
+    private final UserRepository userDao;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
     @Autowired
-    public UserController(UserService service) {
+    public UserController(UserRepository service,
+                          BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userDao = service;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
 
+
+
     @PostMapping("/registration")
-    public String register(
-            @RequestParam("name")       String name,
-            @RequestParam("last_name")  String lastName,
-            @RequestParam("email")      String email
-    ) throws UserAlreadyExistsException {
-        User potentialUser = new User();
-        potentialUser.setName(name);
-        potentialUser.setLastName(lastName);
-        potentialUser.setEmail(email);
-
-        userDao.save(potentialUser);
-
-        return "redirect:/";
+    public void signUp(@RequestBody DMUser user) throws UserAlreadyExistsException {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        userDao.save(user);
     }
 
 
