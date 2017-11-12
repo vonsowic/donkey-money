@@ -23,14 +23,14 @@ public class HelloWorldControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    @Test
-    public void getIndex() throws Exception {
-        mvc.perform(MockMvcRequestBuilders
-                .get("/")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().string(equalTo(("DonkeyMoney's gonna make you rich!"))));
-    }
+//    @Test
+//    public void getIndex() throws Exception {
+//        mvc.perform(MockMvcRequestBuilders
+//                .get("/")
+//                .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andExpect(content().string(equalTo(("DonkeyMoney's gonna make you rich!"))));
+//    }
 
 }
 
