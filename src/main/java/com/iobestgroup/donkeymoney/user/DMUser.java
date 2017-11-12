@@ -15,7 +15,7 @@ public class DMUser {
     private Long id;
 
     @Column(name = "name")
-    private String username;
+    private String name;
 
     @Column(name = "last_name")
     private String lastName;

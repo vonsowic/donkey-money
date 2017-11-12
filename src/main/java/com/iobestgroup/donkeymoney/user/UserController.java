@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 
     private final UserRepository userDao;
@@ -22,31 +22,15 @@ public class UserController {
     }
 
 
-
-
     @PostMapping("/registration")
     public void signUp(@RequestBody DMUser user) throws UserAlreadyExistsException {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userDao.save(user);
-    }
+        user = userDao.save(user);
 
-
-    @GetMapping("/registration")
-    public String getRegistrationPage(){
-
-        return "path to registration page";
-    }
-
-    @PostMapping("/login")
-    public String login(){
-
-        return "redirect:/";
-    }
-
-
-    @GetMapping("/login")
-    public String getLoginPage(){
-
-        return "path to login page";
+        System.out.println("Registration");
+        System.out.println(user.getName());
+        System.out.println(user.getLastName());
+        System.out.println(user.getEmail());
+        System.out.println(user.getPassword());
     }
 }

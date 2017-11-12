@@ -7,6 +7,7 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends CrudRepository<DMUser, Long> {
-    DMUser findByUsername(String username);
+    DMUser findByName(String userName);
+    DMUser findByEmail(String userEmail);
 
 }

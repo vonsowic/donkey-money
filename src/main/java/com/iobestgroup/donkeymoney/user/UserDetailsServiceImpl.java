@@ -1,5 +1,6 @@
 package com.iobestgroup.donkeymoney.user;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,18 +11,26 @@ import static java.util.Collections.emptyList;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
+
 	private UserRepository userRepository;
 
-	public UserDetailsServiceImpl(UserRepository applicationUserRepository) {
-		this.userRepository = applicationUserRepository;
+	@Autowired
+	public UserDetailsServiceImpl(UserRepository userRepository) {
+		this.userRepository = userRepository;
 	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		DMUser applicationUser = userRepository.findByUsername(username);
+		DMUser applicationUser = userRepository.findByEmail(username);
+
 		if (applicationUser == null) {
 			throw new UsernameNotFoundException(username);
 		}
-		return new User(applicationUser.getUsername(), applicationUser.getPassword(), emptyList());
+
+		return new User(
+				applicationUser.getEmail(),
+				applicationUser.getPassword(),
+				emptyList()
+		);
 	}
 }

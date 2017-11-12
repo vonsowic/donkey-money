@@ -12,19 +12,24 @@ import org.springframework.web.bind.annotation.*;
  * @version 1.0
  * @since 21.10.17
  */
-@Controller
+@RestController
 public class HelloWorldController {
+
+    @Autowired
+    public HelloWorldController(HelloWorldRepository helloWorldRepository) {
+        this.helloWorldRepository = helloWorldRepository;
+    }
 
     @GetMapping("googlece1bc7e841e70594")
     public String googlece1bc7e841e70594(){
         return "googlece1bc7e841e70594";
     }
 
-    @Autowired // sprawia, że baza danych jest automatycznie podłączona
-    private HelloWorldRepository helloWorldRepository;
+    // sprawia, że baza danych jest automatycznie podłączona
+    private final HelloWorldRepository helloWorldRepository;
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public @ResponseBody
+    public
     Iterable<HelloWorld> getAllHelloWorldsFromDatabase() {
         return helloWorldRepository.findAll();
     }
@@ -37,8 +42,7 @@ public class HelloWorldController {
      * do tabeli hello_world zostanie zapisany nowy rekord
      */
     @PostMapping(value = "/add") // skrócona wersja od @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public @ResponseBody
-    String addNewHelloWorld(@Param("message") String message) { // po wysłaniu JSON'a
+    public String addNewHelloWorld(@Param("message") String message) { // po wysłaniu JSON'a
         HelloWorld newItem = new HelloWorld();
         newItem.setMessage(message);
 
@@ -48,14 +52,12 @@ public class HelloWorldController {
     }
 
     @GetMapping(value = "/")
-    public @ResponseBody
-    String index() {
+    public String index() {
         return "DonkeyMoney's gonna make you rich!";
     }
 
     @GetMapping(value = "/ping")
-    public @ResponseBody
-    String ping() {
+    public String ping() {
         return "pong";
     }
 }
