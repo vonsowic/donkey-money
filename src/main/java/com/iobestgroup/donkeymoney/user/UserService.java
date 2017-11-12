@@ -14,12 +14,7 @@ public class UserService {
         this.repository = repository;
     }
 
-    public User save(User potentialUser) throws UserAlreadyExistsException {
-        if(!repository.findByEmail(potentialUser.getEmail()).isPresent()){
-            return repository.save(potentialUser);
-        }
-        else {
-            throw new UserAlreadyExistsException();
-        }
+    public DMUser save(DMUser potentialUser) throws UserAlreadyExistsException {
+        return repository.save(potentialUser);
     }
 }
