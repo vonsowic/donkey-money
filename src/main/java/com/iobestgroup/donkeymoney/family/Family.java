@@ -16,9 +16,8 @@ import java.util.List;
 @Table(name = "families")
 public class Family {
 
-    Long userId;
-
+    @Id
     String familyName;
 
-    List<DMUser> familyMembers;
+    //List<DMUser> familyMembers;
 }
