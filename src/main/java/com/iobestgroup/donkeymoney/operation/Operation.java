@@ -15,7 +15,6 @@ import java.sql.Timestamp;
 @Table(name = "operations")
 public class Operation {
 
-    @OneToMany
     Long userId;
 
     Long familyId;
