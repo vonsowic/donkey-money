@@ -14,6 +14,7 @@ import javax.validation.constraints.AssertFalse;
 public class OperationController {
 
     private OperationService service;
+    //@RequestHeader(SecurityConstants.HEADER_STRING) String token
 
     @Autowired
     public OperationController(OperationService service) {

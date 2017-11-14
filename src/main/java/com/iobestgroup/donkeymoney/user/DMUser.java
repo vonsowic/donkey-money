@@ -1,6 +1,7 @@
 package com.iobestgroup.donkeymoney.user;
 
-import com.iobestgroup.donkeymoney.security.token.Token;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.hibernate.validator.constraints.Email;
 
@@ -9,12 +10,12 @@ import java.io.Serializable;
 
 @Data
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class DMUser implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "name")
@@ -29,4 +30,16 @@ public class DMUser implements Serializable{
 
     @Column(name = "password")
     private String password;
+
+    @JsonIgnore
+    public String getPassword() {
+        return password;
+    }
+
+    @JsonProperty
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+
 }
