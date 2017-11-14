@@ -27,11 +27,4 @@ public class TokenDecoder {
                 .getBody()
                 .getSubject();
     }
-
-    public static String getSubject(HttpRequest request){
-        return getSubject(
-                request.getHeaders()
-                        .get(SecurityConstants.HEADER_STRING).get(0)
-        );
-    }
 }
