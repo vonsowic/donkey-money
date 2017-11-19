@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iobestgroup.donkeymoney.user.DMUser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,6 +17,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.http.HTTPBinding;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -60,5 +62,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 				.signWith(SignatureAlgorithm.HS512, SECRET.getBytes())
 				.compact();
 		res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
+		res.addHeader("access-control-expose-headers", HEADER_STRING);
+		res.setStatus(HttpStatus.NO_CONTENT.value());
 	}
 }
