@@ -16,9 +16,12 @@ public class FamilyController {
 
     private FamilyService familyDao;
 
+    private FamilyRepository repository;
+
     @Autowired
-    public FamilyController(FamilyService familyDao) {
+    public FamilyController(FamilyService familyDao, FamilyRepository repository) {
         this.familyDao = familyDao;
+        this.repository = repository;
     }
 
     @PostMapping("/create")
@@ -31,9 +34,10 @@ public class FamilyController {
     @PostMapping("/add")
     public void produceFamilyMember(
             @RequestHeader(SecurityConstants.HEADER_STRING) String token,
-            @RequestBody DMUser user,
-            @RequestParam("id") Long familyId){
+            @RequestParam("user_id") Long userId,
+            @RequestParam("family_id") Long familyId){
 
+        familyDao.addUserToFamily(userId, familyId);
     }
 
     @GetMapping
@@ -46,7 +50,7 @@ public class FamilyController {
     @GetMapping("/all")
     public Iterable<Family> getMyFamilies(
             @RequestHeader(SecurityConstants.HEADER_STRING) String token){
-        return null;
+        return repository.findAll();
     }
 
 
