@@ -32,6 +32,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		this.authenticationManager = authenticationManager;
 	}
 
+
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest req,
 												HttpServletResponse res) throws AuthenticationException {
@@ -61,6 +62,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
 				.signWith(SignatureAlgorithm.HS512, SECRET.getBytes())
 				.compact();
+
 		res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
 		res.addHeader("access-control-expose-headers", HEADER_STRING);
 		res.setStatus(HttpStatus.NO_CONTENT.value());

@@ -1,10 +1,5 @@
 package com.iobestgroup.donkeymoney.security;
 
-/**
- * @author Michał Wąsowicz
- * @version 1.0
- * @since 12.11.17
- */
 
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,11 +13,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import static com.iobestgroup.donkeymoney.security.SecurityConstants.HEADER_STRING;
 import static com.iobestgroup.donkeymoney.security.SecurityConstants.SECRET;
 import static com.iobestgroup.donkeymoney.security.SecurityConstants.TOKEN_PREFIX;
 
+/**
+ * @author Michał Wąsowicz
+ * @version 1.0
+ * @since 12.11.17
+ */
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
 	public JWTAuthorizationFilter(AuthenticationManager authManager) {
@@ -40,27 +41,25 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 			return;
 		}
 
-		UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
+		UsernamePasswordAuthenticationToken authentication = getAuthentication(req)
+				.orElseThrow(RuntimeException::new);
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		chain.doFilter(req, res);
 	}
 
-	private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
+	private Optional<UsernamePasswordAuthenticationToken> getAuthentication(HttpServletRequest request) {
 		String token = request.getHeader(HEADER_STRING);
 		if (token != null) {
 			// parse the token.
-			String user = Jwts.parser()
-					.setSigningKey(SECRET.getBytes())
-					.parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
-					.getBody()
-					.getSubject();
+			String user = TokenDecoder.getSubject(token);
 
-			if (user != null) {
-				return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
-			}
-			return null;
+			if (user != null)
+				return Optional.of(
+					new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>())
+				);
+			else return Optional.empty();
 		}
-		return null;
+		return Optional.empty();
 	}
 }
