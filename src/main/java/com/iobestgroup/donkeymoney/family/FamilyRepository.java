@@ -1,6 +1,5 @@
 package com.iobestgroup.donkeymoney.family;
 
-import com.iobestgroup.donkeymoney.user.DMUser;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -21,5 +20,5 @@ public interface FamilyRepository extends CrudRepository<Family, Long>{
 
     // FIXME
     //@Query("select f from families f where ANY(select members from families where )")
-    //Iterable<Family> findAll(@Param("user_id") DMUser userId);
+    //Iterable<Family> findAllMyFamilies(@Param("user_id") DMUser userId);
 }

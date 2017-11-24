@@ -9,3 +9,4 @@ INSERT INTO users (id, name, last_name, email, password) VALUES (DEFAULT, 'Ben',
 INSERT INTO families (id, name)  VALUES (DEFAULT, 'DonkeyMoneyFamily');
 INSERT INTO families (id, name)  VALUES (DEFAULT, 'Family2');
 INSERT INTO families (id, name)  VALUES (DEFAULT, 'Family3');
+INSERT INTO families (id, name)  VALUES (DEFAULT, 'Family4');

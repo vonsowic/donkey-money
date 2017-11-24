@@ -1,7 +1,6 @@
 package com.iobestgroup.donkeymoney.family;
 
 import com.iobestgroup.donkeymoney.security.SecurityConstants;
-import com.iobestgroup.donkeymoney.user.DMUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,7 +50,7 @@ public class FamilyController {
 
     @GetMapping("/all")
     public Iterable<Family> getMyFamilies(@RequestHeader(SecurityConstants.HEADER_STRING) String token) {
-        return familyDao.findAll(token);
+        return familyDao.findAllMyFamilies(token);
     }
 
 

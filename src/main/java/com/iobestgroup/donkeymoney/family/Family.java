@@ -2,7 +2,9 @@ package com.iobestgroup.donkeymoney.family;
 
 import com.iobestgroup.donkeymoney.user.DMUser;
 import lombok.Data;
+
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -22,7 +24,7 @@ public class Family {
 
 
     @Column(name = "name")
-    String familyName;
+    private String familyName;
 
 
     @Column(name = "members")
@@ -31,7 +33,7 @@ public class Family {
             name = "user",
             joinColumns = @JoinColumn(name = "id")
     )
-    private Set<DMUser> familyMembers;
+    private Set<DMUser> familyMembers = new HashSet<>();
 
 
     public void addMember(DMUser member){

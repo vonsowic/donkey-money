@@ -9,10 +9,8 @@ import com.iobestgroup.donkeymoney.user.exceptions.UserDoesNotExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collector;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 /**
@@ -34,26 +32,26 @@ public class FamilyService implements TokenDecoder.TokenToUser{
     }
 
 
-    public void addUserToFamily(Long userId, Long familyId) {
+    public Family addUserToFamily(Long userId, Long familyId) {
         DMUser user = userDao.findOne(userId);
         if (user == null) throw new UserDoesNotExistException();
 
-        Family family = familyDao.findOne(familyId);
+        Family family = findOne(familyId);
+
         family.addMember(user);
-        familyDao.save(family);
+        return familyDao.save(family);
     }
 
     /**
      *
      * @param family
-     * @param founder
+     * @param founder user who created family.
      * @return saved family with id and one user who created it.
      */
     public Family createFamily(Family family, DMUser founder){
         Family createdFamily = familyDao.save(family);
         createdFamily.addMember(founder);
-        familyDao.save(createdFamily);
-        return createdFamily;
+        return familyDao.save(createdFamily);
     }
 
 
@@ -67,7 +65,7 @@ public class FamilyService implements TokenDecoder.TokenToUser{
     }
 
     public Family leaveFamily(Long familyId, DMUser user) {
-        Family family = find(familyId);
+        Family family = findOne(familyId);
         if(!family.exileMember(user)){
             throw new NotMemberOfFamilyException();
         }
@@ -75,7 +73,7 @@ public class FamilyService implements TokenDecoder.TokenToUser{
     }
 
 
-    private Family find(Long familyId){
+    private Family findOne(Long familyId){
         Family family = familyDao.findOne(familyId);
         if (family == null) throw new FamilyDoesNotExistsException();
 
@@ -88,7 +86,7 @@ public class FamilyService implements TokenDecoder.TokenToUser{
     }
 
     public Family findMyFamily(Long familyId, Long userId) {
-        final Family family = familyDao.findFamilyById(familyId);
+        final Family family = familyDao.findOne(familyId);
         for(DMUser member : family.getFamilyMembers()){
             if(member.getId().equals(userId)){
                 return family;
@@ -99,17 +97,22 @@ public class FamilyService implements TokenDecoder.TokenToUser{
         throw new NotMemberOfFamilyException();
     }
 
-    public Iterable<Family> findAll(String token) {
-        return findAll(getUser(token, userDao));
+    public Iterable<Family> findAllMyFamilies(String token) {
+        return findAllMyFamilies(getUser(token, userDao));
     }
 
-    public Iterable<Family> findAll(DMUser user) {
+    public Iterable<Family> findAllMyFamilies(DMUser user) {
         return StreamSupport.stream(familyDao.findAll().spliterator(), false)
                 .filter(family -> family.getFamilyMembers().contains(user))
                 .collect(Collectors.toList());
     }
 
+    /**
+     * @param search - must have at least 3 characters
+     * @return empty list if search has less than 3 characters
+     */
     public Iterable<Family> search(String search) {
+        if (search.length() < 3) return new ArrayList<>();
         return familyDao.search(search.toLowerCase() + '%');
     }
 }
