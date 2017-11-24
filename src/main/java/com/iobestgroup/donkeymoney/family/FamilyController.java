@@ -1,7 +1,6 @@
 package com.iobestgroup.donkeymoney.family;
 
 import com.iobestgroup.donkeymoney.security.SecurityConstants;
-import com.iobestgroup.donkeymoney.user.DMUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,20 +15,20 @@ public class FamilyController {
 
     private FamilyService familyDao;
 
-    private FamilyRepository repository;
-
     @Autowired
-    public FamilyController(FamilyService familyDao, FamilyRepository repository) {
+    public FamilyController(FamilyService familyDao) {
         this.familyDao = familyDao;
-        this.repository = repository;
     }
+
 
     @PostMapping("/create")
     public void establishFamily(
             @RequestHeader(SecurityConstants.HEADER_STRING) String token,
             @RequestBody Family family){
 
+        familyDao.createFamily(family, token);
     }
+
 
     @PostMapping("/add")
     public void produceFamilyMember(
@@ -40,38 +39,27 @@ public class FamilyController {
         familyDao.addUserToFamily(userId, familyId);
     }
 
+
     @GetMapping
     public Family getMyFamily(
             @RequestHeader(SecurityConstants.HEADER_STRING) String token,
             @RequestParam("id") Long familyId){
-        return null;
+        return familyDao.findMyFamily(familyId, token);
     }
 
+
     @GetMapping("/all")
-    public Iterable<Family> getMyFamilies(
-            @RequestHeader(SecurityConstants.HEADER_STRING) String token){
-        return repository.findAll();
+    public Iterable<Family> getMyFamilies(@RequestHeader(SecurityConstants.HEADER_STRING) String token) {
+        return familyDao.findAll(token);
     }
 
 
     @DeleteMapping
-    public void destroyFamily(
-            @RequestHeader(SecurityConstants.HEADER_STRING) String token,
-            @RequestParam("id") Long id){
-
-    }
-
-    @PutMapping
-    public void exileFamilyMember(
-            @RequestHeader(SecurityConstants.HEADER_STRING) String token,
-            @RequestParam("id") Long userId){
-
-    }
-
-    @DeleteMapping("/leave")
     public void leaveFamily(
             @RequestHeader(SecurityConstants.HEADER_STRING) String token,
             @RequestParam("id") Long familyId){
 
+                // FIXME: Invalid CORS request
+        familyDao.leaveFamily(familyId, token);
     }
 }

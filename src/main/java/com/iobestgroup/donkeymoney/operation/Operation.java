@@ -20,6 +20,8 @@ public class Operation {
 
     Long familyId;
 
+    String title;
+
     Integer amount;
 
     Timestamp dateTime;

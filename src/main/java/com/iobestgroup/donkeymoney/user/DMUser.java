@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
-@Entity
+@Entity(name = "users")
 @Table(name = "users")
 public class DMUser implements Serializable{
 
@@ -18,28 +18,36 @@ public class DMUser implements Serializable{
     @Column(name = "id")
     private Long id;
 
+
     @Column(name = "name")
     private String name;
 
+
     @Column(name = "last_name")
     private String lastName;
+
 
     @Email
     @Column(name = "email", unique = true)
     private String email;
 
+
     @Column(name = "password")
     private String password;
+
 
     @JsonIgnore
     public String getPassword() {
         return password;
     }
 
+
     @JsonProperty
     public void setPassword(String password) {
         this.password = password;
     }
+
+
 
 
 }
