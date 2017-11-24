@@ -16,10 +16,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FamilyRepository extends CrudRepository<Family, Long>{
 
-    @Query("select f from families f where :family_id = id")
-    Family findFamilyById(@Param("family_id") Long familyId);
-
-
     @Query("select family from families family where lower(name) like :search")
     Iterable<Family> search(@Param("search") String search);
 
