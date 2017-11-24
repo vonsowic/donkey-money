@@ -23,7 +23,6 @@ public class UserController {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    //@RequestHeader(SecurityConstants.HEADER_STRING) String token
 
     @PostMapping("/registration")
     public void signUp(@RequestBody DMUser user){
@@ -31,13 +30,19 @@ public class UserController {
         userDao.save(user);
     }
 
-    @GetMapping
-    public DMUser getUserInfo(@RequestHeader(SecurityConstants.HEADER_STRING) String token){
+
+    @GetMapping("/me")
+    public DMUser getUserInfo(
+            @RequestHeader(SecurityConstants.HEADER_STRING) String token){
         return userDao.findByEmail(TokenDecoder.getSubject(token));
     }
 
-    @GetMapping("/all")
-    public Iterable<DMUser> getAllUsers(@RequestHeader(SecurityConstants.HEADER_STRING) String token){
-        return userDao.findAll();
+
+    @GetMapping
+    public Iterable<DMUser> getUserInfo(
+            @RequestHeader(SecurityConstants.HEADER_STRING) String token,
+            @RequestParam("search") String search){
+
+        return userDao.search(search);
     }
 }

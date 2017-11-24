@@ -12,11 +12,11 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
 
-    private final UserRepository repository;
+    private final UserRepository userDao;
 
     @Autowired
     public UserService(UserRepository repository) {
-        this.repository = repository;
+        this.userDao = repository;
     }
 
     /**
@@ -26,22 +26,26 @@ public class UserService {
      */
     public DMUser save(DMUser potentialUser) throws UserAlreadyExistsException {
         try {
-            return repository.save(potentialUser);
+            return userDao.save(potentialUser);
         } catch (DataIntegrityViolationException e){
             throw new UserAlreadyExistsException();
         }
     }
 
     public DMUser findByEmail(String email){
-        return repository.findByEmail(email);
+        return userDao.findByEmail(email);
     }
 
     /**
      * @return all users without theirs emails
      */
     public Iterable<DMUser> findAll(){
-        return Streams.stream(repository.findAll())
+        return Streams.stream(userDao.findAll())
                 .peek(it -> it.setEmail(null))
                 .collect(Collectors.toList());
+    }
+
+    public Iterable<DMUser> search(String search) {
+        return userDao.search(search.toLowerCase() + '%');
     }
 }

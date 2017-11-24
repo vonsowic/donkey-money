@@ -16,15 +16,21 @@ import java.sql.Timestamp;
 public class Operation {
 
     @Id
+    //@OneToMany
     Long userId;
+
 
     Long familyId;
 
+
     String title;
 
-    Integer amount;
+
+    Float amount;
+
 
     Timestamp dateTime;
+
 
     String category;
 }

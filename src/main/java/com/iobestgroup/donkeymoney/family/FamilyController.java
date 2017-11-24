@@ -1,6 +1,7 @@
 package com.iobestgroup.donkeymoney.family;
 
 import com.iobestgroup.donkeymoney.security.SecurityConstants;
+import com.iobestgroup.donkeymoney.user.DMUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,7 +41,7 @@ public class FamilyController {
     }
 
 
-    @GetMapping
+    @GetMapping("/my")
     public Family getMyFamily(
             @RequestHeader(SecurityConstants.HEADER_STRING) String token,
             @RequestParam("id") Long familyId){
@@ -61,5 +62,14 @@ public class FamilyController {
 
                 // FIXME: Invalid CORS request
         familyDao.leaveFamily(familyId, token);
+    }
+
+
+    @GetMapping
+    public Iterable<Family> getUserInfo(
+            @RequestHeader(SecurityConstants.HEADER_STRING) String token,
+            @RequestParam("search") String search){
+
+        return familyDao.search(search);
     }
 }

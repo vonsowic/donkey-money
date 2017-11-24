@@ -108,4 +108,8 @@ public class FamilyService implements TokenDecoder.TokenToUser{
                 .filter(family -> family.getFamilyMembers().contains(user))
                 .collect(Collectors.toList());
     }
+
+    public Iterable<Family> search(String search) {
+        return familyDao.search(search.toLowerCase() + '%');
+    }
 }
