@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @version 1.0
  * @since 24.11.17
  */
-@Component
+@Component("email")
 public class EmailComponent {
 
     public final JavaMailSender emailSender;
