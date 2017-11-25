@@ -1,5 +1,6 @@
 package com.iobestgroup.donkeymoney.operation;
 
+import com.iobestgroup.donkeymoney.user.DMUser;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -16,13 +17,24 @@ import java.sql.Timestamp;
 public class Operation {
 
     @Id
+    @Column(name = "user_id")
+    //DMUser user;
     Long userId;
 
+    @Column(name = "family_id")
     Long familyId;
 
-    Integer amount;
 
+    @Column(name = "title")
+    String title;
+
+
+    @Column(name = "amount")
+    Float amount;
+
+
+    @Column(name = "datetime")
     Timestamp dateTime;
 
-    String category;
+    //String category;
 }

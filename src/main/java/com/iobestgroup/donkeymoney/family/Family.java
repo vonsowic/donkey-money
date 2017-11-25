@@ -2,10 +2,9 @@ package com.iobestgroup.donkeymoney.family;
 
 import com.iobestgroup.donkeymoney.user.DMUser;
 import lombok.Data;
-import lombok.Getter;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -14,7 +13,7 @@ import java.util.Set;
  * @since 12.11.17
  */
 @Data
-@Entity
+@Entity(name = "families")
 @Table(name = "families")
 public class Family {
 
@@ -23,16 +22,34 @@ public class Family {
     @Column(name = "id")
     private Long id;
 
+
     @Column(name = "name")
-    String familyName;
+    private String familyName;
 
 
     @Column(name = "members")
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "user",
             joinColumns = @JoinColumn(name = "id")
     )
-    private List<DMUser> familyMembers;
+    private Set<DMUser> familyMembers = new HashSet<>();
+
+
+    public void addMember(DMUser member){
+        getFamilyMembers().add(member);
+    }
+
+    public boolean exileMember(DMUser member){
+        return getFamilyMembers().remove(member);
+    }
+
+    public Family removeEmails(){
+        //  remove emails from response
+        getFamilyMembers()
+                .forEach(member -> member.setEmail(null));
+
+        return this;
+    }
 
 }

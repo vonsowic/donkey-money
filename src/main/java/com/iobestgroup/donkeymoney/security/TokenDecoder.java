@@ -1,5 +1,8 @@
 package com.iobestgroup.donkeymoney.security;
 
+import com.iobestgroup.donkeymoney.user.DMUser;
+import com.iobestgroup.donkeymoney.user.UserRepository;
+import com.iobestgroup.donkeymoney.user.exceptions.UserDoesNotExistException;
 import io.jsonwebtoken.Jwts;
 import org.springframework.http.HttpRequest;
 
@@ -26,5 +29,13 @@ public class TokenDecoder {
                 .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
                 .getBody()
                 .getSubject();
+    }
+
+    public interface TokenToUser{
+        default DMUser getUser(String token, UserRepository repository){
+            DMUser user = repository.findByEmail(getSubject(token));
+            if (user == null) throw new UserDoesNotExistException();
+            return user;
+        }
     }
 }
