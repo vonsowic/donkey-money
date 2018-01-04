@@ -9,11 +9,13 @@ class UserController @Autowired constructor(
         private val userDao: UserService
 ) {
 
+    @CrossOrigin(origins = ["https://donkeymoney-app.herokuapp.com"])
     @PostMapping("/registration")
     fun signUp(@RequestBody user: DMUser) {
         userDao.save(user)
     }
 
+    @CrossOrigin(origins = ["https://donkeymoney-app.herokuapp.com"])
     @PostMapping("/securityToken")
     fun getSecurityToken(@RequestBody user: DMUser) = userDao
             .getSecurityToken(
