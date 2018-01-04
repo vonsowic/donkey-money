@@ -35,6 +35,8 @@ constructor(private val userDao: UserRepository) {
         throw UserNotAuthorizedException()
     }
 
+    fun findAll(): Iterable<DMUser> = userDao.findAll()
+
 }
 
 
