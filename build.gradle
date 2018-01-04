@@ -37,8 +37,7 @@ dependencies {
 
 
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    compile group: 'postgresql', name: 'postgresql', version: '9.1-901-1.jdbc4'
-
+    compile("org.hsqldb:hsqldb")
     compile group: 'org.mindrot', name: 'jbcrypt', version: '0.3m'
 }
 

@@ -16,7 +16,7 @@ class UserService @Autowired constructor(private val userDao: UserRepository) {
      * @throws UserAlreadyExistsException
      */
     fun save(potentialUser: DMUser): DMUser = try {
-            potentialUser.password = BCrypt.hashpw(potentialUser.password, BCrypt.gensalt())
+//            potentialUser.password = BCrypt.hashpw(potentialUser.password, BCrypt.gensalt())
             userDao.save(potentialUser)
         } catch (e: DataIntegrityViolationException) {
             throw UserAlreadyExistsException()
@@ -27,9 +27,9 @@ class UserService @Autowired constructor(private val userDao: UserRepository) {
     fun getSecurityToken(userName: String, password: String) = try{
         userDao.getSecurityToken(
                 userName,
-                BCrypt.hashpw(password, BCrypt.gensalt())
+                password
         ).first().securityToken
-    } catch (_ : IndexOutOfBoundsException ){
+    } catch (_ : NoSuchElementException){
         throw UserNotAuthorizedException()
     }
 
