@@ -15,7 +15,7 @@ data class DMUser(
 
     @Email
     @Column(name = "username", unique = true)
-    var email: String? = null,
+    var email: String = "",
 
 
     @Column(name = "password")

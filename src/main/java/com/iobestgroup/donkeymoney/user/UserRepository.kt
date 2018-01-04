@@ -15,5 +15,5 @@ interface UserRepository : CrudRepository<DMUser, Long> {
     fun getSecurityToken(
             @Param("username") username: String,
             @Param("password") password: String
-    ): DMUser
+    ): Collection<DMUser>
 }

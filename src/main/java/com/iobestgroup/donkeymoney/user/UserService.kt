@@ -8,15 +8,13 @@ import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
 
 @Service
-class UserService @Autowired
-constructor(private val userDao: UserRepository) {
+class UserService @Autowired constructor(private val userDao: UserRepository) {
 
     /**
      * @param potentialUser
      * @return potentialUser with id.
      * @throws UserAlreadyExistsException
      */
-    @Throws(UserAlreadyExistsException::class)
     fun save(potentialUser: DMUser): DMUser = try {
             potentialUser.password = BCrypt.hashpw(potentialUser.password, BCrypt.gensalt())
             userDao.save(potentialUser)
@@ -30,13 +28,12 @@ constructor(private val userDao: UserRepository) {
         userDao.getSecurityToken(
                 userName,
                 BCrypt.hashpw(password, BCrypt.gensalt())
-        ).securityToken
+        ).first().securityToken
     } catch (_ : IndexOutOfBoundsException ){
         throw UserNotAuthorizedException()
     }
 
     fun findAll(): Iterable<DMUser> = userDao.findAll()
-
 }
 
 
