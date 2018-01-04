@@ -15,6 +15,7 @@ class UserController @Autowired constructor(
     }
 
     @PostMapping("/securityToken")
-    fun getSecurityToken(email: String, password: String) = userDao
-            .getSecurityToken(email, password)
+    fun getSecurityToken(
+            @RequestParam email: String,
+            @RequestParam password: String) = userDao.getSecurityToken(email, password)
 }
