@@ -2,6 +2,7 @@ package com.iobestgroup.donkeymoney.user
 
 import com.iobestgroup.donkeymoney.user.exceptions.UserAlreadyExistsException
 import com.iobestgroup.donkeymoney.user.exceptions.UserNotAuthorizedException
+import org.mindrot.jbcrypt.BCrypt
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
@@ -17,6 +18,7 @@ constructor(private val userDao: UserRepository) {
      */
     @Throws(UserAlreadyExistsException::class)
     fun save(potentialUser: DMUser): DMUser = try {
+            potentialUser.password = BCrypt.hashpw(potentialUser.password, BCrypt.gensalt())
             userDao.save(potentialUser)
         } catch (e: DataIntegrityViolationException) {
             throw UserAlreadyExistsException()
@@ -25,7 +27,10 @@ constructor(private val userDao: UserRepository) {
     fun findByEmail(email: String) = userDao.findByEmail(email)
 
     fun getSecurityToken(userName: String, password: String) = try{
-        userDao.getSecurityToken(userName, password).securityToken
+        userDao.getSecurityToken(
+                userName,
+                BCrypt.hashpw(password, BCrypt.gensalt())
+        ).securityToken
     } catch (_ : IndexOutOfBoundsException ){
         throw UserNotAuthorizedException()
     }
