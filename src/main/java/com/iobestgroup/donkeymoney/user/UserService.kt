@@ -24,11 +24,12 @@ class UserService @Autowired constructor(private val userDao: UserRepository) {
 
     fun findByEmail(email: String) = userDao.findByEmail(email)
 
-    fun getSecurityToken(userName: String, password: String) = try{
-        userDao.getSecurityToken(
-                userName,
-                password
-        ).first().securityToken
+    fun getSecurityToken(userName: String, password: String) = try {
+        """
+        |{
+        |   "securityToken": "${userDao.getSecurityToken(userName, password).first().securityToken}"
+        |}
+        """.trimMargin()
     } catch (_ : NoSuchElementException){
         throw UserNotAuthorizedException()
     }
