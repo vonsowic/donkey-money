@@ -23,6 +23,14 @@ data class DMUser(
 
 
     @Column(name = "securityToken")
-    var securityToken: String = ""
+    var securityToken: String = "",
+
+
+    @Column(name = "name")
+    var name: String = "",
+
+
+    @Column(name = "last_name")
+    var lastName: String = ""
 )
 
