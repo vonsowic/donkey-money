@@ -2,6 +2,7 @@ package com.iobestgroup.donkeymoney.user.salesforce
 
 import com.google.gson.Gson
 import com.iobestgroup.donkeymoney.user.DMUser
+import com.iobestgroup.donkeymoney.user.exceptions.UserAlreadyExistsException
 import com.mashape.unirest.http.Unirest.post
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -28,13 +29,23 @@ class SalesforceService @Autowired constructor(){
 
     fun createUser(user: DMUser) {
         val token = salesforceToken
-        post("https://donkeymoney-dev-ed.my.salesforce.com/services/apexrest/user/registration")
+        print("access token " + token.access_token)
+        val response = post("https://donkeymoney-dev-ed.my.salesforce.com/services/apexrest/user/registration")
                 .header("Authorization", "${token.token_type} ${token.access_token}")
-                .header("charset", "UTF-8")
-                .field("email", user.email)
-                .field("password", user.password)
-                .field("name", user.name)
-                .field("lastName", user.lastName)
+                .header("Content-Type", "application/json")
+                .body("""
+                      {
+                        "name": "${user.name}",
+                        "lastName": "${user.lastName}",
+                        "password": "${user.password}",
+                        "email": "${user.email}"
+                      }
+                """.trimIndent())
                 .asJson()
+
+        when(response.status) {
+            409 -> throw UserAlreadyExistsException()
+            else -> {}
+        }
     }
 }

@@ -22,6 +22,7 @@ class UserController @Autowired constructor(
     @CrossOrigin(origins = ["https://donkeymoney-app.herokuapp.com"])
     @PostMapping("/registration")
     fun signUp(@RequestBody user: DMUser) {
+        println("User: creating new user")
         salesforce.createUser(user)
         userDao.save(user)
     }
@@ -30,6 +31,7 @@ class UserController @Autowired constructor(
     @CrossOrigin(origins = ["https://donkeymoney-app.herokuapp.com"])
     @PutMapping("/registration")
     fun confirmAndSaveSalesforceSecurityToken(@RequestBody user: DMUser) {
+        println("User: updating user")
         userDao.update(user)
     }
 }
